@@ -1,9 +1,8 @@
-# Render Blueprint Specification for SkillGraph (WEXA AI)
 services:
   # 1. FastAPI Backend Web Service
   - type: web
     name: skillgraph-backend
-    env: python
+    runtime: python
     region: singapore
     plan: free
     buildCommand: cd backend && pip install -r requirements.txt
@@ -17,7 +16,7 @@ services:
   # 2. React Vite Frontend Static Site
   - type: web
     name: skillgraph-frontend
-    env: static
+    runtime: static
     region: singapore
     plan: free
     buildCommand: cd frontend && npm install && npm run build
