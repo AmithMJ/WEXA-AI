@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Briefcase, Building, MapPin, DollarSign, CheckCircle2 } from 'lucide-react';
+import { API_BASE_URL } from '../api';
 
 export default function JobBoard() {
   const [jobs, setJobs] = useState([]);
   const [remoteOnly, setRemoteOnly] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/jobs${remoteOnly ? '?remote_only=true' : ''}`)
+    fetch(`${API_BASE_URL}/api/jobs${remoteOnly ? '?remote_only=true' : ''}`)
       .then(res => res.json())
       .then(data => setJobs(data || []))
       .catch(err => console.error(err));

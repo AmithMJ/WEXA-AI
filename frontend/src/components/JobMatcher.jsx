@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Sparkles, CheckCircle2, AlertCircle, BookOpen, ExternalLink, Briefcase, User, Award, ArrowUpRight } from 'lucide-react';
+import { API_BASE_URL } from '../api';
 
 export default function JobMatcher({ developers, onSelectDeveloper }) {
   const [selectedDevId, setSelectedDevId] = useState(developers[0]?.id || 'dev-1');
@@ -16,7 +17,7 @@ export default function JobMatcher({ developers, onSelectDeveloper }) {
   useEffect(() => {
     if (!selectedDevId) return;
     setLoading(true);
-    fetch(`http://localhost:8000/api/developers/${selectedDevId}/recommendations`)
+    fetch(`${API_BASE_URL}/api/developers/${selectedDevId}/recommendations`)
       .then(res => res.json())
       .then(data => {
         setRecommendations(data || []);

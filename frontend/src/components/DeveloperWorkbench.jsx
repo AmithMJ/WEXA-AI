@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { User, Plus, Check, Award, MapPin, Mail, Briefcase } from 'lucide-react';
+import { API_BASE_URL } from '../api';
 
 export default function DeveloperWorkbench({ developers, onRefresh }) {
   const [skills, setSkills] = useState([]);
@@ -17,7 +18,7 @@ export default function DeveloperWorkbench({ developers, onRefresh }) {
   const [newDevBio, setNewDevBio] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/skills')
+    fetch(`${API_BASE_URL}/api/skills`)
       .then(res => res.json())
       .then(data => setSkills(data || []))
       .catch(err => console.error(err));
@@ -25,7 +26,7 @@ export default function DeveloperWorkbench({ developers, onRefresh }) {
 
   useEffect(() => {
     if (!selectedDevId) return;
-    fetch(`http://localhost:8000/api/developers/${selectedDevId}`)
+    fetch(`${API_BASE_URL}/api/developers/${selectedDevId}`)
       .then(res => res.json())
       .then(data => {
         setActiveDev(data);
@@ -45,7 +46,7 @@ export default function DeveloperWorkbench({ developers, onRefresh }) {
   const saveSkills = () => {
     if (!selectedDevId) return;
     setSaving(true);
-    fetch(`http://localhost:8000/api/developers/${selectedDevId}/skills`, {
+    fetch(`${API_BASE_URL}/api/developers/${selectedDevId}/skills`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(selectedSkills)
@@ -73,7 +74,7 @@ export default function DeveloperWorkbench({ developers, onRefresh }) {
       bio: newDevBio
     };
 
-    fetch('http://localhost:8000/api/developers', {
+    fetch(`${API_BASE_URL}/api/developers`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)

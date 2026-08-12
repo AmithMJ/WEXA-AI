@@ -1,0 +1,34 @@
+# Render Blueprint Specification for SkillGraph (WEXA AI)
+services:
+  # 1. FastAPI Backend Web Service
+  - type: web
+    name: skillgraph-backend
+    env: python
+    region: singapore
+    plan: free
+    buildCommand: cd backend && pip install -r requirements.txt
+    startCommand: cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: CORS_ORIGINS
+        value: "*"
+
+  # 2. React Vite Frontend Static Site
+  - type: web
+    name: skillgraph-frontend
+    env: static
+    region: singapore
+    plan: free
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: ./frontend/dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: skillgraph-backend
+          property: host
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

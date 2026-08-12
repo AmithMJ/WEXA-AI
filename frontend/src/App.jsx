@@ -6,6 +6,7 @@ import SkillExplorer from './components/SkillExplorer';
 import JobBoard from './components/JobBoard';
 import DeveloperWorkbench from './components/DeveloperWorkbench';
 import StatusBanner from './components/StatusBanner';
+import { API_BASE_URL } from './api';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('graph');
@@ -16,7 +17,7 @@ export default function App() {
   const [seeding, setSeeding] = useState(false);
 
   const fetchHealth = () => {
-    fetch('http://localhost:8000/api/health')
+    fetch(`${API_BASE_URL}/api/health`)
       .then(res => res.json())
       .then(data => setDbStatus(data))
       .catch(err => console.error('Failed to fetch health status:', err));
@@ -24,7 +25,7 @@ export default function App() {
 
   const fetchGraph = () => {
     setLoading(true);
-    fetch('http://localhost:8000/api/graph')
+    fetch(`${API_BASE_URL}/api/graph`)
       .then(res => res.json())
       .then(data => {
         setGraphData(data || { nodes: [], edges: [] });
@@ -37,7 +38,7 @@ export default function App() {
   };
 
   const fetchDevelopers = () => {
-    fetch('http://localhost:8000/api/developers')
+    fetch(`${API_BASE_URL}/api/developers`)
       .then(res => res.json())
       .then(data => setDevelopers(data || []))
       .catch(err => console.error('Failed to fetch developers:', err));
@@ -55,7 +56,7 @@ export default function App() {
 
   const handleSeed = () => {
     setSeeding(true);
-    fetch('http://localhost:8000/api/seed', { method: 'POST' })
+    fetch(`${API_BASE_URL}/api/seed`, { method: 'POST' })
       .then(res => res.json())
       .then(() => {
         setSeeding(false);

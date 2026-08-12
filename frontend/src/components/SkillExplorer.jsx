@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Layers, BookOpen, ExternalLink, Network, ChevronRight } from 'lucide-react';
+import { API_BASE_URL } from '../api';
 
 export default function SkillExplorer() {
   const [skills, setSkills] = useState([]);
@@ -8,7 +9,7 @@ export default function SkillExplorer() {
   const [selectedCategory, setSelectedCategory] = useState('ALL');
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/skills')
+    fetch(`${API_BASE_URL}/api/skills`)
       .then(res => res.json())
       .then(data => {
         setSkills(data || []);
@@ -19,7 +20,7 @@ export default function SkillExplorer() {
 
   useEffect(() => {
     if (!selectedSkill) return;
-    fetch(`http://localhost:8000/api/skills/${selectedSkill.id}`)
+    fetch(`${API_BASE_URL}/api/skills/${selectedSkill.id}`)
       .then(res => res.json())
       .then(data => setSkillDetails(data))
       .catch(err => console.error(err));
